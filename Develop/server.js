@@ -25,4 +25,9 @@ app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes
 // This view route is a GET route for the homepage
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 
+// Start the server and listen on the specified port (PORT).
+// When the server is successfully started, log a message indicating
+// that the Note-Taker application is running and provide the URL
+// where it can be accessed locally.
+//
 app.listen(PORT, () => console.log(`Note-Taker listening at http://localhost:${PORT} 🚀`));
