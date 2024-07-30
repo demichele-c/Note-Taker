@@ -1,33 +1,34 @@
-const express = require('express');
-const path = require('path');
+const express = require('express'); // Import Express.js library
+const path = require('path'); // Import path module for handling file paths
 
-// Import the feedback router
+// Import the API router from the routes folder
 const api = require('./routes/index');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; // Set port to the environment variable PORT or default to 3001
 
-const app = express();
+const app = express(); // Create an instance of an Express application
 
-// Middleware for parsing JSON and urlencoded form data
+// Middleware to parse incoming JSON data
 app.use(express.json());
+
+// Middleware to parse incoming URL-encoded data (e.g., form submissions)
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware to serve up static assets from the public folder
+// Middleware to serve static files from the 'public' directory
 app.use(express.static('public'));
 
-// Middleware to send requests that begin with /api to the index.js in the routes folder
-// this is declared in the api variable above
+// Middleware to route API requests starting with /api to the 'api' router
+// The 'api' router handles API endpoints for the application
 app.use('/api', api);
 
-// This view route is a GET route for the notes page
+// View route to serve the notes.html file when accessing /notes
+// This route is used to display the notes page
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 
-// This view route is a GET route for the homepage
+// View route to serve the index.html file for all other routes
+// This wildcard route is used to display the homepage or handle undefined routes
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 
-// Start the server and listen on the specified port (PORT).
-// When the server is successfully started, log a message indicating
-// that the Note-Taker application is running and provide the URL
-// where it can be accessed locally.
-//
+// Start the server and listen on the specified port (PORT)
+// Log a message indicating the server is running and provide the URL to access it locally
 app.listen(PORT, () => console.log(`Note-Taker listening at http://localhost:${PORT} 🚀`));
